@@ -1,13 +1,13 @@
 {
-  "name": "instagramnodeclient",
+  "name": "instafetcher",
   "version": "1.0.0",
-  "description": "",
+  "description": "The project appears to be a Node.js application that interacts with the Instagram Graph API to fetch media details for a user's Instagram account.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Ritik Ranjan",
+  "license": "MIT",
   "dependencies": {
     "axios": "^1.6.2",
     "dotenv": "^16.3.1"
