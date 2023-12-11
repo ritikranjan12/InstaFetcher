@@ -10,9 +10,8 @@ require('dotenv').config(); // Loads environment variables from a .env file into
 const fs = require('fs'); // File system module
 
 const accessToken = process.env.accessToken;   // Access Token for the Instagram Graph API
-const userId = process.env.userId; // User ID of the Instagram account
 
-const dataUrl = `https://graph.instagram.com/me/media?fields=id,caption&access_token=${accessToken}`; // URL to fetch media IDs
+const dataUrl = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,username,timestamp&access_token=${accessToken}`; // URL to fetch media IDs
 
 /**
  * Saves an array of objects into a single file as JSON.
@@ -35,46 +34,12 @@ function saveArrayToFile(data, filePath) { // Function to save data to a file
 }
 
 /**
- * Fetches details for a specific media item.
- * @param {string} id - The ID of the media item.
- * @returns {Promise<Object>} - A promise that resolves to the details of the media item.
- */
-const fetchdetails = async(id) => {
-    let details = [] // Array to store the media details
-    const mediaUrl = `https://graph.instagram.com/${id}?fields=id,media_type,media_url,username,timestamp&access_token=${accessToken}`; // URL to fetch media details
-    await axios.get(mediaUrl) // Fetch media details
-        .then(response => {
-            const data = response.data;
-            details.push(data);
-        })
-        .catch(error => {
-            console.log('Error:', error.message);
-        });
-    return details; // Return media details
-}
-
-/**
- * Fetches media details for the given media data.
- * @param {Array} mediaData - The media data to fetch details for.
- * @returns {Promise<Array>} - A promise that resolves to an array of media details.
- */
-async function getMediaDetails(mediaData){
-    let mediaDetails = []; // Array to store the media details
-    console.log("Media Details Fetching");
-    for (const item of mediaData[0]) { // Iterate over the media data
-        const details = await fetchdetails(item.id); // Fetch media details
-        mediaDetails.push(details); // Push media details to the array
-    }
-    return mediaDetails; // Return media details
-}
-
-/**
  * Fetches media IDs and retrieves their details.
  * @returns {Promise<void>} A Promise that resolves when the media details are fetched.
  */
 async function getMediaID(){
-    let mediaData = []; // Array to store the media IDs
-    await axios.get(dataUrl) // Fetch media IDs
+    let mediaData = []; // Array to store the medias
+    await axios.get(dataUrl) // Fetch medias
         .then(response => {
             const data = response.data;
             const newdata = data.data.slice(0,20);
@@ -82,10 +47,8 @@ async function getMediaID(){
         })
         .catch(error => {
             console.log('Error:', error.message);
-        });
-    console.log("Media Ids Fetched");
-    const result = await getMediaDetails(mediaData); // Fetch media details
-    saveArrayToFile(result,'output.json') // Save media details to a file
+        });    
+    saveArrayToFile(mediaData,'output.json') // Save media details to a file
     console.log("Results saved");
     console.log("Thank You for using the software");
 };

@@ -22,9 +22,7 @@ The project appears to be a Node.js application that interacts with the Instagra
 
 ## Features
 
-- Feature 1: Get Media Ids and captions of Users Post.
-- Feature 2: Get Media Details of a Specific Media Item.
-- ...
+- Feature 1: Get Media Details and captions of Users Post.
 
 ## Contributing
 
